@@ -51,15 +51,15 @@ pub fn markdown_to_html(input: &str) -> String {
 pub fn markdown_to_ast(input: &str) -> String {
     let arena = Arena::new();
     let root = parse_document(&arena, input, &options());
-    let ast = node_to_json(root);
+    let ast = node_to_ast(root);
     serde_json::to_string(&ast).unwrap()
 }
 
-fn node_to_json<'a>(node: &'a comrak::arena_tree::Node<'a, std::cell::RefCell<comrak::nodes::Ast>>) -> Value {
+fn node_to_ast<'a>(node: &'a comrak::arena_tree::Node<'a, std::cell::RefCell<comrak::nodes::Ast>>) -> Value {
     let ast = node.data.borrow();
-    let children: Vec<Value> = node.children().map(node_to_json).collect();
+    let (node_type, attrs) = serialize_node_value(&ast.value);
 
-    let (node_type, attrs) = node_value_to_json(&ast.value);
+    let children: Vec<Value> = node.children().map(node_to_ast).collect();
 
     let mut obj = serde_json::Map::new();
     obj.insert("type".into(), Value::String(node_type));
@@ -77,7 +77,7 @@ fn node_to_json<'a>(node: &'a comrak::arena_tree::Node<'a, std::cell::RefCell<co
     Value::Object(obj)
 }
 
-fn node_value_to_json(value: &NodeValue) -> (String, Value) {
+fn serialize_node_value(value: &NodeValue) -> (String, Value) {
     match value {
         NodeValue::Document => ("document".into(), Value::Null),
         NodeValue::FrontMatter(s) => ("front_matter".into(), json!({ "value": s })),
