@@ -1,11 +1,11 @@
 # flatmarkdown
 
-Markdown parser library for PetaJournal. Wraps [comrak](https://github.com/kivikakk/comrak) with PetaJournal-specific options pre-configured.
+Flat Markdown parser — outline format with blank-line-delimited blocks
 
 ## API
 
 - `markdown_to_html(input: &str) -> String` — Convert Markdown to HTML
-- `markdown_to_ast(input: &str) -> String` — Convert Markdown to JSON AST ([spec](SPEC.md))
+- `markdown_to_ast(input: &str) -> String (JSON)` — Convert Markdown to JSON AST ([spec](SPEC_AST.md))
 
 ## Testing
 
