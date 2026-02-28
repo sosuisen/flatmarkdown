@@ -2,6 +2,12 @@
 name = "flatmarkdown"
 version = "0.1.0"
 edition = "2024"
+description = "Flat Markdown parser — outline format with blank-line-delimited blocks"
+license = "MIT"
+license-file = "COPYING"
+repository = "https://github.com/sosuisen/flatmarkdown"
+keywords = ["markdown", "html", "ast", "comrak"]
+categories = ["text-processing", "parsing"]
 
 [dependencies]
 comrak = { version = "0.50", features = ["shortcodes"] }
